@@ -14,13 +14,13 @@ public class Auth extends BaseTest {
     public void testAuthorizationIsSuccessful(){
         User user = new User(PropertiesFileReader.getUsername(), PropertiesFileReader.getPassword());
 
-        TokenRes.getInstance().setToken(given()
+        TokenRes token = given()
                 .when()
                 .body(user)
                 .post("auth/login")
                 .then()
-                .extract().body().jsonPath().getString("token"));
+                .extract().body().jsonPath().getObject("token", TokenRes.class);
 
-        assertNotNull(TokenRes.getInstance().getToken(), "Token is null");
+        assertNotNull(token, "Token is null");
     }
 }
